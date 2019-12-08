@@ -1,5 +1,5 @@
 # Database as a service (python-mongo example)
-This program allows user to create database as a service which in s>
+This program allows user to create database as a service which in simpler means it exposes certain end points which enable user to store and maintain information inside the service
 Do let me know if you need any more information or have any doubt
 
 #### Contact detail
