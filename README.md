@@ -3,9 +3,16 @@ This program allows user to create database as a service which in simpler words 
 Do let me know if you need any more information or have any doubt  
 
 
-**Contact detail**  
+####Contact detail
 ------  
 **email** : kmalik1122@gmail.com
+
+####Python libraries
+1. Flask
+2. Flask-restful
+3. Flask-JWT
+4. pymongo
+5. bcrypt
 
 ## Instruction
 
