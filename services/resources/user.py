@@ -26,9 +26,13 @@ class UserRegistry(Resource):
 class User(Resource):
     def get(self, name):
         user = UserModel.find_by_username(name)
-        if user :
-            return user.get(), 200
-        return {"message": "User with given username does not exist"}, 404
+        if user.use_allowance():
+            user.update_to_db()
+            if user :
+                return user.get(), 200
+            return {"message": "User with given username does not exist"}, 404
+        else:
+            return {"message": "Request allowance reached its limit"}, 301
      
     
 #    def post(self):
