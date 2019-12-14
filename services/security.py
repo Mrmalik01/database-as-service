@@ -10,6 +10,6 @@ def authenticate(username, password):
 def identity(payload):
     return UserModel.find_by_id(payload['identity'])
 
-    
+
    
 

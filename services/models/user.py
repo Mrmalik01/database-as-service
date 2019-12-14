@@ -4,12 +4,12 @@ from bson.objectid import ObjectId
 
 class UserModel:
     def __init__(self, username, password, id=None, allowance=100, messages=[]):
-        self.id = id
+        self.id = str(id)
         self.username = username
         self.password = self.encoder(password)
+        print(self.password)
         self.allowance = allowance
         self.messages = messages
-        self.password = self.encoder(password)
         
     def encoder(self, password):
         return encoder.hashpw(str(password).encode("utf8"), encoder.gensalt())
@@ -40,8 +40,9 @@ class UserModel:
         
     def _update_values(self):
         user = list(user_db.find({"username":self.username}))
+        print(user)
         self.username = user[0]['username']
-        self.id = user[0]['_id']
+        self.id = str(user[0]['_id'])
         self.password = user[0]['password']
         self.allowance = user[0]['total_allowance']
         return True
@@ -51,7 +52,10 @@ class UserModel:
         return True
 
     def passwordCheck(self, password):
-        if self.encoder(password) == self.password:
+        self._update_values()
+        print(encoder.hashpw(password.encode("utf8"), self.password))
+        print(self.password)
+        if encoder.checkpw(password.encode("utf8"), self.password):
             return True
         return False
 
@@ -67,7 +71,7 @@ class UserModel:
 
     @classmethod
     def create_user(cls, payload):
-        if "allowance" in payload and "messages" in payload:
+        if "total_allowance" in payload and "messages" in payload:
             return cls(payload['username'], payload['password'], payload['allowance'], payload['messages'])
         return cls(payload['username'], payload['password'])
         
@@ -76,12 +80,12 @@ class UserModel:
         user = list(user_db.find({"username":username}))
         print(user)
         if user and len(user)>0:
-            return cls(user[0]['username'], user[0]['password'], id=user[0]['_id'])
+            return cls(user[0]['username'], user[0]['password'], user[0]['_id'])
         return None
 
     @classmethod
     def find_by_id(cls, id):
-        user = list(user_db.find({"_id" : ObjectId(self.id)}))
+        user = list(user_db.find({"_id" : ObjectId(id)}))
         if user and len(user)>0:
             return cls(user[0]['username'], user[0]['password'], user[0]['_id'])
         return None
