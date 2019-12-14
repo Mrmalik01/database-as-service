@@ -21,6 +21,10 @@ docker-compose build
 docker-compose up
 ```
 
+If you want to test the service in the docker environment - please make the following change
+
+1. In the database.py - change the name of the MongoClient from "mongodb://localhost:271017" to mongodb://db:271017". Also if you want to use a hosted mongoDb server, then simply change the url and the rest of the program will work fine. 
+
 
 
 
